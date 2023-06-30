@@ -19,7 +19,7 @@
                         </h2>
                     </header>
 
-                    <form method="post" action="{{ is_null($album) ? route('admin.albums.store') : route('admin.albums.update', $album) }}" class="mt-6 space-y-6">
+                    <form method="post" action="{{ is_null($album) ? route('myaccount.albums.store') : route('myaccount.albums.update', $album) }}" class="mt-6 space-y-6">
                         <div class="grid grid-cols-2 gap-4">
                             <div class="col-span-1">
                                 <x-input-label for="name" :value="__('Nom*')"/>
@@ -77,8 +77,34 @@
                             </div>
                         </div>
 
+                        <div>
+                            <x-input-label for="type" :value="__('Genres')"/>
+
+                            <div class="grid grid-cols-6 gap-4">
+                                @foreach($genres as $genre)
+                                    <div class="relative flex items-start">
+                                        <div class="flex h-6 items-center">
+                                            <input id="genres-{{ $genre->id }}" aria-describedby="comments-description"
+                                                   name="genres[]"
+                                                   type="checkbox"
+                                                   value="{{ $genre->id }}"
+                                                   class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                {{ in_array($genre->id, old('genres', $album?->genres->pluck('id')->all() ?? [])) ? 'checked="checked"' : '' }}
+                                            />
+                                        </div>
+                                        <div class="ml-3 text-sm leading-6">
+                                            <label for="genres-{{ $genre->id }}" class="font-medium text-gray-900">{{ $genre->name }}</label>
+                                            {{ ' ' }}
+                                            <span id="comments-description" class="text-gray-500"><span class="sr-only">{{ $genre->name }}&nbsp;</span>{{ $genre->description }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
                         <div class="flex items-center gap-4">
-                            <x-primary-button>{{ __('Save') }}</x-primary-button>
+                            <x-primary-button>{{ __('Enregistrer') }}</x-primary-button>
 
                             @if (session('status') === 'album-updated')
                                 <p
@@ -87,7 +113,7 @@
                                     x-transition
                                     x-init="setTimeout(() => show = false, 2000)"
                                     class="text-sm text-gray-600 dark:text-gray-400"
-                                >{{ __('Saved.') }}</p>
+                                >{{ __('Enregistré.') }}</p>
                             @endif
                         </div>
 
@@ -103,7 +129,7 @@
             @isset($album)
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <div class="max-w-xl">
-                        @include('admin.albums.partials.delete-album-form')
+                        @include('myaccount.albums.partials.delete-album-form')
                     </div>
                 </div>
             @endisset

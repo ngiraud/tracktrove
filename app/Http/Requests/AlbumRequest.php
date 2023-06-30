@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\AlbumType;
 use App\Models\Artist;
+use App\Models\Genre;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
@@ -31,6 +32,8 @@ class AlbumRequest extends FormRequest
             'released_at' => ['required', 'date_format:Y-m-d'],
             'artist_id' => ['required_without:artist_name', Rule::exists(Artist::class, 'id')],
             'artist_name' => ['required_without:artist_id', 'max:255'],
+            'genres' => ['nullable', 'array'],
+            'genres.*' => [Rule::exists(Genre::class, 'id')],
         ];
     }
 }

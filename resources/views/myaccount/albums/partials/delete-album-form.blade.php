@@ -11,7 +11,7 @@
     >{{ __("Supprimer l'album") }}</x-danger-button>
 
     <x-modal name="confirm-album-deletion" :show="$errors->albumDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('admin.albums.destroy', $album) }}" class="p-6">
+        <form method="post" action="{{ route('myaccount.albums.destroy', $album) }}" class="p-6">
             @csrf
             @method('delete')
 

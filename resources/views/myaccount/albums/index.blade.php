@@ -6,7 +6,7 @@
             </h2>
 
             <div class="ml-4">
-                <a href="{{ route('admin.albums.create') }}"
+                <a href="{{ route('myaccount.albums.create') }}"
                    class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900 dark:bg-gray-200 dark:text-gray-800 dark:hover:bg-white dark:focus:bg-white dark:focus:ring-offset-gray-800 dark:active:bg-gray-300"
                 >
                     {{ __('Ajouter un album') }}
@@ -18,7 +18,7 @@
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
             <div class="flow-root overflow-x-auto border-b border-gray-200 bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-6">
-                <form method="get" action="{{ route('admin.albums.index') }}" class="flex items-center justify-between space-x-4">
+                <form method="get" action="{{ route('myaccount.albums.index') }}" class="flex items-center justify-between space-x-4">
                     <div class="max-w-md flex-1">
                         <div class="flex max-w-md items-center space-x-4">
                             <div class="flex-1">
@@ -29,12 +29,12 @@
                                 />
                             </div>
 
-                            <div>
-                                <x-primary-button type="submit" class="h-[38px]">
+                            <div class="flex items-stretch space-x-2">
+                                <x-primary-button type="submit">
                                     {{ __('Rechercher') }}
                                 </x-primary-button>
 
-                                <a href="{{ route('admin.albums.index') }}"
+                                <a href="{{ route('myaccount.albums.index') }}"
                                    class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out h-[38px] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800">
                                     {{ __('Effacer') }}
                                 </a>
@@ -82,6 +82,9 @@
                                 <th scope="col" class="sticky top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                                     {{ __('Type') }}
                                 </th>
+                                <th scope="col" class="sticky top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                    {{ __('Genres') }}
+                                </th>
                                 <th scope="col" class="relative sticky top-0 z-10 py-3 pr-4 pl-3 sm:pr-1">
                                     <span class="sr-only">{{ __('Modifier') }}</span>
                                 </th>
@@ -89,7 +92,7 @@
                             </thead>
                             <tbody class="bg-white">
                             @forelse($albums as $album)
-                                <tr class="even:bg-gray-50">
+                                <tr class="even:bg-gray-50 hover:bg-gray-100 transition-colors">
                                     <td class="whitespace-nowrap pr-3 pl-4 text-sm font-medium text-gray-900 py-3.5 sm:pl-1">
                                         {{ $album->name }}
                                     </td>
@@ -102,8 +105,11 @@
                                     <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
                                         {{ $album->type->name }}
                                     </td>
+                                    <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
+                                        {!! $album->genres->pluck('name')->implode("<br/>") !!}
+                                    </td>
                                     <td class="relative whitespace-nowrap pr-4 pl-3 text-right text-sm font-medium py-3.5 sm:pr-1">
-                                        <a href="{{ route('admin.albums.edit', $album) }}" class="text-indigo-600 hover:text-indigo-900">
+                                        <a href="{{ route('myaccount.albums.edit', $album) }}" class="text-indigo-600 hover:text-indigo-900">
                                             {{ __('Modifier') }}<span class="sr-only">, {{ $album->name }}</span>
                                         </a>
                                     </td>

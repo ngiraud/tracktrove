@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\MyAccount;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AlbumRequest;
 use App\Models\Album;
 use App\Models\Artist;
+use App\Models\Genre;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -26,9 +27,9 @@ class AlbumController extends Controller
             'q' => ['nullable', 'string', 'max:255', 'min:3'],
         ]);
 
-        return view('admin.albums.index', [
+        return view('myaccount.albums.index', [
             'albums' => $request->user()?->library?->albums()
-                                                  ->with(['artist'])
+                                                  ->with(['artist', 'genres'])
                                                   ->filtered($request)
                                                   ->paginate()
                                                   ->withQueryString(),
@@ -40,8 +41,9 @@ class AlbumController extends Controller
      */
     public function create(): View
     {
-        return view('admin.albums.form', [
+        return view('myaccount.albums.form', [
             'artists' => Artist::orderBy('name')->get(['name', 'id']),
+            'genres' => Genre::orderBy('name')->get(),
             'album' => null,
         ]);
     }
@@ -57,7 +59,11 @@ class AlbumController extends Controller
                 ->only(['name', 'type', 'released_at', 'artist_id'])
         );
 
-        return redirect()->route('admin.albums.edit', $album)->with('status', 'album-updated');
+        if (!is_null($genres = $request->input('genres'))) {
+            $album->genres()->sync($genres);
+        }
+
+        return redirect()->route('myaccount.albums.edit', $album)->with('status', 'album-updated');
     }
 
     /**
@@ -65,8 +71,9 @@ class AlbumController extends Controller
      */
     public function edit(Album $album): View
     {
-        return view('admin.albums.form', [
+        return view('myaccount.albums.form', [
             'artists' => Artist::orderBy('name')->get(['name', 'id']),
+            'genres' => Genre::orderBy('name')->get(),
             'album' => $album,
         ]);
     }
@@ -82,7 +89,11 @@ class AlbumController extends Controller
                 ->only(['name', 'type', 'released_at', 'artist_id'])
         );
 
-        return redirect()->route('admin.albums.edit', $album)->with('status', 'album-updated');
+        if (!is_null($genres = $request->input('genres'))) {
+            $album->genres()->sync($genres);
+        }
+
+        return redirect()->route('myaccount.albums.edit', $album)->with('status', 'album-updated');
     }
 
     /**
@@ -92,7 +103,7 @@ class AlbumController extends Controller
     {
         $album->delete();
 
-        return redirect()->route('admin.albums.index');
+        return redirect()->route('myaccount.albums.index');
     }
 
     protected function createArtistAndRetrieveId(AlbumRequest $request): int

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
 
 class Album extends Model
@@ -32,11 +33,18 @@ class Album extends Model
         return $this->belongsTo(Library::class);
     }
 
+    public function genres(): MorphToMany
+    {
+        return $this->morphToMany(Genre::class, 'model', 'model_has_genres');
+    }
+
     public function scopeFiltered(Builder $query, Request $request): void
     {
-        $query->when(!empty($q = $request->get('q')), function (Builder $query) use ($q) {
-            return $query->where('name', 'LIKE', "%{$q}%")
-                         ->orWhereHas('artist', fn(Builder $query) => $query->where('name', 'LIKE', "%{$q}%"));
-        });
+        $query
+            ->when(!empty($q = $request->get('q')), function (Builder $query) use ($q) {
+                return $query->where('name', 'LIKE', "%{$q}%")
+                             ->orWhereHas('artist', fn(Builder $query) => $query->where('name', 'LIKE', "%{$q}%"));
+            })
+            ->orderBy('name', 'asc');
     }
 }

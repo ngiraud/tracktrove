@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\MyAccount;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LibraryRequest;
@@ -18,7 +18,7 @@ class LibraryController extends Controller
     {
         $this->authorize('create', Library::class);
 
-        return view('admin.library.edit', [
+        return view('myaccount.library.edit', [
             'user' => $request->user(),
             'library' => null,
         ]);
@@ -43,7 +43,7 @@ class LibraryController extends Controller
     {
         $this->authorize('update', $request->user()->library);
 
-        return view('admin.library.edit', [
+        return view('myaccount.library.edit', [
             'user' => $request->user(),
             'library' => $request->user()->library,
         ]);
