@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -47,5 +48,24 @@ class User extends Authenticatable implements MustVerifyEmail
     public function library(): HasOne
     {
         return $this->hasOne(Library::class);
+    }
+
+    public function following(): BelongsToMany
+    {
+        return $this->belongsToMany(Library::class, 'follow_library_user', 'user_id');
+    }
+
+    public function follow(Library $library): static
+    {
+        $this->following()->attach($library->id);
+
+        return $this;
+    }
+
+    public function unfollow(Library $library): static
+    {
+        $this->following()->detach($library->id);
+
+        return $this;
     }
 }

@@ -12,6 +12,10 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request): View
     {
-        return view('dashboard');
+        return view('dashboard', [
+            'followersCount' => $request->user()?->library?->followers()->count(),
+            'followingCount' => $request->user()->following()?->count(),
+            'albumsCount' => $request->user()?->library?->albums()->count(),
+        ]);
     }
 }

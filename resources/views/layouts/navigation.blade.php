@@ -16,9 +16,11 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('myaccount.albums.index')" :active="request()->routeIs('myaccount.albums.*')">
-                        {{ __('Albums') }}
-                    </x-nav-link>
+                    @isset(auth()->user()->library)
+                        <x-nav-link :href="route('myaccount.albums.index')" :active="request()->routeIs('myaccount.albums.*')">
+                            {{ __('Albums') }}
+                        </x-nav-link>
+                    @endisset
                 </div>
             </div>
 
