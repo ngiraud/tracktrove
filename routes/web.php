@@ -30,6 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/library', [Controllers\Admin\LibraryController::class, 'edit'])->name('library.edit');
     Route::put('/library', [Controllers\Admin\LibraryController::class, 'update'])->name('library.update');
     Route::delete('/library', [Controllers\Admin\LibraryController::class, 'destroy'])->name('library.destroy');
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('albums', Controllers\Admin\AlbumController::class)->except('show');
+    });
 });
 
 require __DIR__.'/auth.php';
