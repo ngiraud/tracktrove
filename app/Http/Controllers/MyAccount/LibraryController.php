@@ -33,7 +33,7 @@ class LibraryController extends Controller
 
         $request->user()->library()->create($request->safe(['name', 'description']));
 
-        return redirect()->route('library.edit')->with('status', 'library-updated');
+        return redirect()->route('myaccount.library.edit')->with('status', 'library-updated');
     }
 
     /**
@@ -58,7 +58,7 @@ class LibraryController extends Controller
 
         $request->user()->library()->update($request->safe(['name', 'description']));
 
-        return redirect()->route('library.edit')->with('status', 'library-updated');
+        return redirect()->route('myaccount.library.edit')->with('status', 'library-updated');
     }
 
     /**

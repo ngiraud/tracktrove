@@ -103,7 +103,7 @@
                                         class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                                 >
                                     @foreach(['name' => __('Nom'), 'released_at' => __('Date de sortie'), 'type' => __('Type')] as $key => $value)
-                                        <option @selected(request()->get('sort', 'name')) value="{{ $key }}">{{ $value }}</option>
+                                        <option @selected(request()->get('sort', 'name') === $key) value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -55,7 +55,7 @@
                                         {{ $album->artist->name }}
                                     </td>
                                     <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                                        {{ $album->released_at->diffForHumans() }}
+                                        {{ str($album->released_at->isoFormat('MMM YYYY'))->ucfirst() }}
                                     </td>
                                     <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
                                         {{ $album->type->name }}
