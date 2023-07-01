@@ -7,7 +7,6 @@ use App\Models\Artist;
 use App\Models\Genre;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 
 class AlbumRequest extends FormRequest
 {
@@ -28,7 +27,7 @@ class AlbumRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:255'],
-            'type' => ['required', new Enum(AlbumType::class)],
+            'type' => ['required', Rule::enum(AlbumType::class)],
             'released_at' => ['required', 'date_format:Y-m-d'],
             'artist_id' => ['required_without:artist_name', Rule::exists(Artist::class, 'id')],
             'artist_name' => ['required_without:artist_id', 'max:255'],

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\MyAccount;
 
+use App\Enums\AlbumType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AlbumRequest;
 use App\Models\Album;
@@ -9,6 +10,7 @@ use App\Models\Artist;
 use App\Models\Genre;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class AlbumController extends Controller
@@ -24,10 +26,16 @@ class AlbumController extends Controller
     public function index(Request $request): View
     {
         $request->validate([
-            'q' => ['nullable', 'string', 'max:255', 'min:3'],
+            'q' => ['nullable', 'string', 'max:255', 'min:2'],
+            'sort' => ['nullable', Rule::in(['name', 'released_at', 'type']), 'required_unless:direction,null'],
+            'direction' => ['nullable', Rule::in(['asc', 'desc']), 'required_unless:sort,null'],
+            'filters' => ['nullable', 'array:artist,type'],
+            'filters.artist' => ['nullable', Rule::exists(Album::class, 'artist_id')],
+            'filters.type' => ['nullable', Rule::enum(AlbumType::class)],
         ]);
 
         return view('myaccount.albums.index', [
+            'artists' => Artist::orderBy('name')->get(['id', 'name']),
             'albums' => $request->user()?->library?->albums()
                                                   ->with(['artist', 'genres'])
                                                   ->filtered($request)

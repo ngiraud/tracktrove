@@ -37,7 +37,7 @@
                                 >
                                     <option disabled selected>{{ __('Choisissez') }}</option>
                                     @foreach($artists as $artist)
-                                        <option {{ $album?->artist->is($artist) ? 'selected="selected"' : '' }} value="{{ $artist->id }}">{{ $artist->name }}</option>
+                                        <option @selected($album?->artist->is($artist)) value="{{ $artist->id }}">{{ $artist->name }}</option>
                                     @endforeach
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('artist_id')"/>
@@ -70,7 +70,9 @@
                                 >
                                     <option disabled selected>{{ __('Choisissez') }}</option>
                                     @foreach(\App\Enums\AlbumType::cases() as $type)
-                                        <option {{ $type === $album?->type ? 'selected="selected"' : '' }} value="{{ $type->value }}">{{ $type->name }}</option>
+                                        <option @selected($type === $album?->type) value="{{ $type->value }}">
+                                            {{ $type->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('type')"/>
@@ -89,7 +91,7 @@
                                                    type="checkbox"
                                                    value="{{ $genre->id }}"
                                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                                {{ in_array($genre->id, old('genres', $album?->genres->pluck('id')->all() ?? [])) ? 'checked="checked"' : '' }}
+                                                @checked(in_array($genre->id, old('genres', $album?->genres->pluck('id')->all() ?? [])))
                                             />
                                         </div>
                                         <div class="ml-3 text-sm leading-6">

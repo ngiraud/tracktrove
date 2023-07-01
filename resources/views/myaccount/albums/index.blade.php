@@ -17,53 +17,8 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-            <div class="flow-root overflow-x-auto border-b border-gray-200 bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-6">
-                <form method="get" action="{{ route('myaccount.albums.index') }}" class="flex items-center justify-between space-x-4">
-                    <div class="max-w-md flex-1">
-                        <div class="flex max-w-md items-center space-x-4">
-                            <div class="flex-1">
-                                <x-text-input id="q" name="q"
-                                              type="text" class="w-full text-sm"
-                                              value="{{ request()->get('q') }}"
-                                              :placeholder="__('Rechercher...')"
-                                />
-                            </div>
-
-                            <div class="flex items-stretch space-x-2">
-                                <x-primary-button type="submit">
-                                    {{ __('Rechercher') }}
-                                </x-primary-button>
-
-                                <a href="{{ route('myaccount.albums.index') }}"
-                                   class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out h-[38px] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800">
-                                    {{ __('Effacer') }}
-                                </a>
-                            </div>
-                        </div>
-
-                        <x-input-error class="mt-2" :messages="$errors->get('q')"/>
-                    </div>
-
-                    {{--                    <div>--}}
-                    {{--                        <x-dropdown align="right" width="48">--}}
-                    {{--                            <x-slot name="trigger">--}}
-                    {{--                                <button type="button"--}}
-                    {{--                                        class="inline-flex items-center rounded-md border border-gray-300 bg-white p-2 text-xs font-semibold uppercase tracking-widest text-gray-700 shadow-sm transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800">--}}
-                    {{--                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">--}}
-                    {{--                                        <path stroke-linecap="round" stroke-linejoin="round"--}}
-                    {{--                                              d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"/>--}}
-                    {{--                                    </svg>--}}
-                    {{--                                </button>--}}
-                    {{--                            </x-slot>--}}
-
-                    {{--                            <x-slot name="content">--}}
-                    {{--                                <x-dropdown-link :href="route('profile.edit')">--}}
-                    {{--                                    {{ __('Profile') }}--}}
-                    {{--                                </x-dropdown-link>--}}
-                    {{--                            </x-slot>--}}
-                    {{--                        </x-dropdown>--}}
-                    {{--                    </div>--}}
-                </form>
+            <div class="flow-root overflow-x-auto border-b border-gray-200 bg-white p-4 shadow dark:bg-gray-800 sm:rounded-lg sm:p-6 lg:min-h-[500px]">
+                <x-albums.filters :artists="$artists"></x-albums.filters>
 
                 <div class="-mx-4 -my-2 mt-6 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -116,7 +71,7 @@
                                 </tr>
                             @empty
                                 <tr class="even:bg-gray-50">
-                                    <td class="whitespace-nowrap px-2 py-2 text-center text-sm font-medium text-gray-900" colspan="5">
+                                    <td class="whitespace-nowrap px-2 py-6 text-center text-sm font-medium text-gray-900" colspan="6">
                                         {{ __('Aucun résultat') }}
                                     </td>
                                 </tr>

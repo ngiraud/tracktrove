@@ -166,5 +166,9 @@ return [
 
     'attributes' => [
         'q' => 'recherche',
+        'filters.type' => 'type',
+        'filters.artist' => 'artiste',
+        'sort' => 'tri',
+        'direction' => 'direction',
     ],
 ];

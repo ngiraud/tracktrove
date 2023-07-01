@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class Album extends Model
 {
@@ -42,9 +43,27 @@ class Album extends Model
     {
         $query
             ->when(!empty($q = $request->get('q')), function (Builder $query) use ($q) {
-                return $query->where('name', 'LIKE', "%{$q}%")
-                             ->orWhereHas('artist', fn(Builder $query) => $query->where('name', 'LIKE', "%{$q}%"));
+                return $query->where(function (Builder $query) use ($q) {
+                    return $query->where('name', 'LIKE', "%{$q}%")
+                                 ->orWhereHas('artist', fn(Builder $query) => $query->where('name', 'LIKE', "%{$q}%"));
+                });
             })
-            ->orderBy('name', 'asc');
+            ->when(
+                !empty($sort = $request->get('sort')) && !empty($direction = $request->get('direction')),
+                fn(Builder $query) => $query->orderBy($sort, $direction),
+                fn(Builder $query) => $query->orderBy('name', 'asc')
+            )
+            ->when(
+                !empty($filters = $request->get('filters')),
+                fn(Builder $query) => $query
+                    ->when(
+                        !empty($artist = Arr::get($filters, 'artist')),
+                        fn(Builder $query) => $query->where('artist_id', $artist)
+                    )
+                    ->when(
+                        !empty($type = Arr::get($filters, 'type')),
+                        fn(Builder $query) => $query->where('type', $type)
+                    )
+            );
     }
 }
