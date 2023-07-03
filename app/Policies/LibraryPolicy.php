@@ -20,7 +20,7 @@ class LibraryPolicy
      */
     public function view(User $user, Library $library): bool
     {
-        return $library->is($user->library);
+        return $library->isNot($user->library);
     }
 
     /**
@@ -45,5 +45,10 @@ class LibraryPolicy
     public function delete(User $user, Library $library): bool
     {
         return $library->is($user->library);
+    }
+
+    public function follow(User $user, Library $library): bool
+    {
+        return $library->isNot($user->library);
     }
 }

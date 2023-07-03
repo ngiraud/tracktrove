@@ -12,6 +12,8 @@ class LibraryController extends Controller
 {
     public function index(Request $request): View
     {
+        $this->authorize('viewAny', Library::class);
+
         $request->validate([
             'q' => ['nullable', 'string', 'max:255', 'min:2'],
             'sort' => ['nullable', Rule::in(['name', 'created_at']), 'required_unless:direction,null'],
@@ -33,6 +35,8 @@ class LibraryController extends Controller
 
     public function show(Request $request, Library $library): View
     {
+        $this->authorize('view', $library);
+
         $library->loadMissing(['albums', 'albums.artist']);
 
         return view('libraries.show', [
@@ -48,6 +52,8 @@ class LibraryController extends Controller
 
     public function follow(Request $request, Library $library): RedirectResponse
     {
+        $this->authorize('follow', $library);
+
         $request->user()->follow($library);
 
         return back()->with('status', __('Vous suivez à présent la bibliothèque :name.', ['name' => $library->name]));
@@ -55,6 +61,8 @@ class LibraryController extends Controller
 
     public function unfollow(Request $request, Library $library): RedirectResponse
     {
+        $this->authorize('follow', $library);
+
         $request->user()->unfollow($library);
 
         return back()->with('status', __('Vous ne suivez plus la bibliothèque :name.', ['name' => $library->name]));
