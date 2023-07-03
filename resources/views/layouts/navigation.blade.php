@@ -56,7 +56,11 @@
                                     'border-sky-600 text-sky-600' => request()->routeIs('profile.edit') || request()->routeIs('myaccount.library.edit')
                                 ])
                             >
-                                <span class="flex items-center justify-center h-8 w-8 rounded-full bg-slate-50 uppercase text-slate-500 border border-slate-400">
+                                <span @class([
+                                    'flex items-center justify-center h-8 w-8 rounded-full uppercase border',
+                                    'text-slate-500 bg-slate-50 border-slate-400' => !request()->routeIs('profile.edit') && !request()->routeIs('myaccount.library.edit'),
+                                    'text-sky-500 bg-sky-50 border-sky-400' => request()->routeIs('profile.edit') || request()->routeIs('myaccount.library.edit')
+                                ])>
                                     {{ str(Auth::user()->name)[0] }}
                                 </span>
 
