@@ -25,7 +25,7 @@ class LibraryController extends Controller
         return view('libraries.index', [
             'libraries' => Library::with(['user:id,name'])
                                   ->whereKeyNot($request->user()->library->getKey())
-                                  ->withCount('albums')
+                                  ->withCount(['albums', 'followers'])
                                   ->filtered($request)
                                   ->paginate()
                                   ->withQueryString(),

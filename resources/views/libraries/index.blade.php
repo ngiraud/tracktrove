@@ -28,6 +28,9 @@
                             <th scope="col" class="sticky top-0 z-10 px-2 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
                                 {{ __('# albums') }}
                             </th>
+                            <th scope="col" class="sticky top-0 z-10 px-2 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                                {{ __('# followers') }}
+                            </th>
                             <th scope="col" class="relative sticky top-0 z-10 py-3 pr-4 pl-3 sm:pr-1">
                                 <span class="sr-only">{{ __('Suivre') }}</span>
                             </th>
@@ -46,7 +49,10 @@
                                     {{ str($library->description)->words(10) }}
                                 </td>
                                 <td class="whitespace-nowrap px-2 py-2 text-sm text-slate-500">
-                                    {{ $library->albums_count }}
+                                    {{ $library->albums_count ?? 0 }}
+                                </td>
+                                <td class="whitespace-nowrap px-2 py-2 text-sm text-slate-500">
+                                    {{ $library->followers_count ?? 0 }}
                                 </td>
                                 <td class="relative whitespace-nowrap space-x-2 pr-4 pl-3 text-right text-sm font-medium py-3.5 sm:pr-1">
                                     <a href="{{ route('libraries.show', $library) }}" class="text-sky-600 hover:text-sky-900">
