@@ -25,8 +25,8 @@ class DataSeeder extends Seeder
         $nico = User::where('email', 'contact@ngiraud.me')->first();
         $john = User::where('email', 'john@example.com')->first();
 
-        $nico->library()->firstOrCreate(['name' => "Nico's library"]);
-        $john->library()->firstOrCreate(['name' => "John's library"]);
+        $nico->library()->firstOrCreate(['name' => "Nico's library", 'description' => fake('fr')->paragraph(10)]);
+        $john->library()->firstOrCreate(['name' => "John's library", 'description' => fake('fr')->paragraph(10)]);
 
         foreach (range(1, 10) as $range) {
             Album::factory()->count(random_int(10, 20))

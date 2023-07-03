@@ -1,6 +1,4 @@
-@props(['artists', 'route' => 'myaccount.albums.index', 'routeParams' => []])
-
-<form method="get" action="{{ route($route, $routeParams) }}" class="flex items-center justify-between space-x-4">
+<form method="get" action="{{ route('libraries.index') }}" class="flex items-center justify-between space-x-4">
     <div class="max-w-lg flex-1">
         <div class="flex max-w-lg items-center space-x-4">
             <div class="flex-1">
@@ -16,7 +14,7 @@
                     {{ __('Rechercher') }}
                 </x-primary-button>
 
-                <a href="{{ route($route, [...$routeParams, ...request()->only(['sort', 'direction'])]) }}"
+                <a href="{{ route('libraries.index', request()->only(['sort', 'direction'])) }}"
                    class="inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition duration-150 ease-in-out h-[38px] hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-25 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:focus:ring-offset-slate-800">
                     {{ __('Effacer') }}
                 </a>
@@ -42,61 +40,23 @@
                 <div class="space-y-2 divide-y divide-slate-200">
                     <div class="space-y-4 px-4 py-4">
                         <div class="grid grid-cols-12 gap-2">
-                            <x-input-label for="filters.artist" class="col-span-3 flex items-center" :value="__('Artiste :')"/>
+                            <x-input-label for="filters.artist" class="col-span-3 flex items-center" :value="__('Statut :')"/>
 
                             <div class="flex items-center justify-end col-span-9 space-x-2">
-                                <select id="filters.artist"
-                                        name="filters[artist]"
+                                <select id="filters.status"
+                                        name="filters[status]"
                                         class="mt-1 block flex-1 w-full border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 focus:border-sky-500 dark:focus:border-sky-600 focus:ring-sky-500 dark:focus:ring-sky-600 rounded-md shadow-sm"
                                 >
-                                    <option disabled selected>{{ __('Choisissez') }}</option>
-                                    @foreach($artists as $artist)
-                                        <option @selected(request()->integer('filters.artist') === $artist->id)
-                                                value="{{ $artist->id }}"
-                                        >{{ $artist->name }}</option>
+                                    @foreach(['all' => __('Tous'), 'only-followed' => __('Seulement suivies'), 'except-followed' => __('Seulement non suivies')] as $key => $value)
+                                        <option @selected(request()->string('filters.status')->value() === $key)
+                                                value="{{ $key }}"
+                                        >{{ $value }}</option>
                                     @endforeach
                                 </select>
-                                <div class="flex items-center justify-end">
-                                    <a href="{{ route($route, [...$routeParams, ...request()->except(['q', 'filters.artist', 'page'])]) }}"
-                                       class="flex items-center justify-center rounded-full p-1 text-slate-700 transition duration-150 ease-in-out hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-25 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:focus:ring-offset-slate-800"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                        </svg>
-                                    </a>
-                                </div>
                             </div>
-                            <x-input-error class="mt-2 col-span-12" :messages="$errors->get('filters.artist')"/>
+                            <x-input-error class="mt-2 col-span-12" :messages="$errors->get('filters.status')"/>
                         </div>
 
-                        <div class="grid grid-cols-12 gap-2">
-                            <x-input-label for="filters.type" class="col-span-3 flex items-center" :value="__('Type :')"/>
-
-                            <div class="flex items-center justify-end col-span-9 space-x-2">
-                                <select id="filters.type"
-                                        name="filters[type]"
-                                        class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 focus:border-sky-500 dark:focus:border-sky-600 focus:ring-sky-500 dark:focus:ring-sky-600 rounded-md shadow-sm"
-                                >
-                                    <option disabled selected>{{ __('Choisissez') }}</option>
-                                    @foreach(\App\Enums\AlbumType::cases() as $type)
-                                        <option @selected(request()->integer('filters.type') === $type->value)
-                                                value="{{ $type->value }}"
-                                        >{{ $type->name }}</option>
-                                    @endforeach
-                                </select>
-
-                                <div class="flex items-center justify-end">
-                                    <a href="{{ route($route, [...$routeParams, ...request()->except(['q', 'filters.type', 'page'])]) }}"
-                                       class="flex items-center justify-center rounded-full p-1 text-slate-700 transition duration-150 ease-in-out hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-25 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:focus:ring-offset-slate-800"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                            <x-input-error class="mt-2 col-span-12" :messages="$errors->get('filters.type')"/>
-                        </div>
                         <div class="grid grid-cols-12 gap-2">
                             <x-input-label for="sort" class="col-span-3 flex items-center" :value="__('Trier par :')"/>
                             <div class="flex items-center justify-end col-span-9 space-x-2">
@@ -104,7 +64,7 @@
                                         name="sort"
                                         class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 focus:border-sky-500 dark:focus:border-sky-600 focus:ring-sky-500 dark:focus:ring-sky-600 rounded-md shadow-sm"
                                 >
-                                    @foreach(['name' => __('Nom'), 'released_at' => __('Date de sortie'), 'type' => __('Type'), 'created_at' => __("Date d'ajout")] as $key => $value)
+                                    @foreach(['name' => __('Nom'), 'created_at' => __("Date d'ajout")] as $key => $value)
                                         <option @selected(request()->get('sort', 'name') === $key) value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>
@@ -133,7 +93,7 @@
                             {{ __('Rechercher') }}
                         </x-primary-button>
 
-                        <a href="{{ route($route, [...$routeParams, ...request()->only('q')]) }}"
+                        <a href="{{ route('libraries.index', request()->only('q')) }}"
                            class="inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition duration-150 ease-in-out h-[38px] hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-25 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:focus:ring-offset-slate-800">
                             {{ __('Effacer') }}
                         </a>

@@ -17,6 +17,11 @@
                                     {{ __('Dashboard') }}
                                 </x-nav-link>
                             </li>
+                            <li>
+                                <x-nav-link :href="route('libraries.index')" :active="request()->routeIs('libraries.*')">
+                                    {{ __('Bibliothèques') }}
+                                </x-nav-link>
+                            </li>
                         </ul>
                     </li>
 

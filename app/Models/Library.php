@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class Library extends Model
 {
@@ -33,5 +36,33 @@ class Library extends Model
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'follow_library_user', 'library_id');
+    }
+
+    public function scopeFiltered(Builder $query, Request $request): void
+    {
+        $query
+            ->when(!empty($q = $request->get('q')), function (Builder $query) use ($q) {
+                return $query->where(function (Builder $query) use ($q) {
+                    return $query->where('name', 'LIKE', "%{$q}%")
+                                 ->orWhere('description', 'LIKE', "%{$q}%");
+                });
+            })
+            ->when(
+                !empty($sort = $request->get('sort')) && !empty($direction = $request->get('direction')),
+                fn(Builder $query) => $query->orderBy($sort, $direction),
+                fn(Builder $query) => $query->orderBy('name', 'asc')
+            )
+            ->when(
+                !empty($filters = $request->get('filters')),
+                fn(Builder $query) => $query
+                    ->when(
+                        !empty($status = Arr::get($filters, 'status')),
+                        fn(Builder $query) => match ($status) {
+                            'only-followed' => $query->whereHas('followers', fn(Builder $query) => $query->where('user_id', $request->user()->id)),
+                            'except-followed' => $query->whereDoesntHave('followers', fn(Builder $query) => $query->where('user_id', $request->user()->id)),
+                            default => $query,
+                        },
+                    )
+            );
     }
 }

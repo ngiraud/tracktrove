@@ -18,7 +18,12 @@ Route::get('/', fn() => redirect()->route('dashboard'));
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', Controllers\DashboardController::class)->name('dashboard');
-    Route::get('/libraries', Controllers\DashboardController::class)->name('dashboard');
+
+    Route::get('/libraries', [Controllers\LibraryController::class, 'index'])->name('libraries.index');
+    Route::get('/libraries/{library}', [Controllers\LibraryController::class, 'show'])->name('libraries.show');
+    Route::post('/libraries/{library}/follow', [Controllers\LibraryController::class, 'follow'])->name('libraries.follow');
+    Route::post('/libraries/{library}/unfollow', [Controllers\LibraryController::class, 'unfollow'])->name('libraries.unfollow');
+
 
     Route::name('profile.')->group(function () {
         Route::get('/profile', [Controllers\ProfileController::class, 'edit'])->name('edit');
