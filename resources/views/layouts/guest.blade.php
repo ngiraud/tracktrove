@@ -7,10 +7,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
-
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -18,7 +14,7 @@
 <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-slate-100 dark:bg-slate-900">
     <div>
         <a href="/">
-            <x-application-logo class="w-60 h-auto fill-current text-red-700"/>
+            <x-application-logo class="w-60 h-auto fill-current text-sky-500 dark:text-sky-200"/>
         </a>
     </div>
 

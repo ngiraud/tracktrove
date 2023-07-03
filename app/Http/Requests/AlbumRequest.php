@@ -15,6 +15,8 @@ class AlbumRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        dd($this->all());
+
         return true;
     }
 
@@ -31,7 +33,7 @@ class AlbumRequest extends FormRequest
             'released_at' => ['required', 'date_format:Y-m-d'],
             'artist_id' => ['required_without:artist_name', Rule::exists(Artist::class, 'id')],
             'artist_name' => ['required_without:artist_id', 'max:255'],
-            'genres' => ['nullable', 'array'],
+            'genres' => ['required', 'array'],
             'genres.*' => [Rule::exists(Genre::class, 'id')],
         ];
     }
