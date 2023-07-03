@@ -1,6 +1,6 @@
 <section class="space-y-6">
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">
             {{ __("Supprimer l'album") }}
         </h2>
     </header>
@@ -15,11 +15,11 @@
             @csrf
             @method('delete')
 
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">
                 {{ __("Supprimer l'album ?") }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
                 {{ __('Une fois votre album supprimé, toutes ses ressources et données seront définitivement supprimées.') }}
             </p>
 

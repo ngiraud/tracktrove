@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-slate-800 dark:text-slate-200 leading-tight">
             @isset($album)
                 {{ __("Édition de l'album :name", ['name' => $album->name]) }}
             @else
@@ -11,10 +11,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="p-4 sm:p-8 bg-white dark:bg-slate-800 shadow sm:rounded-lg">
                 <section>
                     <header>
-                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">
                             {{ __('Informations') }}
                         </h2>
                     </header>
@@ -33,7 +33,7 @@
                                 <x-input-label for="artist_id" :value="__('Artiste*')"/>
                                 <select id="artist_id"
                                         name="artist_id"
-                                        class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                        class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                                 >
                                     <option disabled selected>{{ __('Choisissez') }}</option>
                                     @foreach($artists as $artist)
@@ -66,7 +66,7 @@
                                 <x-input-label for="type" :value="__('Type*')"/>
                                 <select id="type"
                                         name="type"
-                                        class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                                        class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                                 >
                                     <option disabled selected>{{ __('Choisissez') }}</option>
                                     @foreach(\App\Enums\AlbumType::cases() as $type)
@@ -90,14 +90,14 @@
                                                    name="genres[]"
                                                    type="checkbox"
                                                    value="{{ $genre->id }}"
-                                                   class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                   class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600"
                                                 @checked(in_array($genre->id, old('genres', $album?->genres->pluck('id')->all() ?? [])))
                                             />
                                         </div>
                                         <div class="ml-3 text-sm leading-6">
-                                            <label for="genres-{{ $genre->id }}" class="font-medium text-gray-900">{{ $genre->name }}</label>
+                                            <label for="genres-{{ $genre->id }}" class="font-medium text-slate-900">{{ $genre->name }}</label>
                                             {{ ' ' }}
-                                            <span id="comments-description" class="text-gray-500"><span class="sr-only">{{ $genre->name }}&nbsp;</span>{{ $genre->description }}
+                                            <span id="comments-description" class="text-slate-500"><span class="sr-only">{{ $genre->name }}&nbsp;</span>{{ $genre->description }}
                                             </span>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
                                     x-show="show"
                                     x-transition
                                     x-init="setTimeout(() => show = false, 2000)"
-                                    class="text-sm text-gray-600 dark:text-gray-400"
+                                    class="text-sm text-slate-600 dark:text-slate-400"
                                 >{{ __('Enregistré.') }}</p>
                             @endif
                         </div>
@@ -129,7 +129,7 @@
             </div>
 
             @isset($album)
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="p-4 sm:p-8 bg-white dark:bg-slate-800 shadow sm:rounded-lg">
                     <div class="max-w-xl">
                         @include('myaccount.albums.partials.delete-album-form')
                     </div>

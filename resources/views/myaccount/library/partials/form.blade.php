@@ -1,6 +1,6 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-slate-900 dark:text-slate-100">
             {{ __('Informations') }}
         </h2>
     </header>
@@ -16,7 +16,7 @@
             <x-input-label for="description" :value="__('Description')"/>
             <textarea
                 rows="6"
-                class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                class="w-full border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                 name="description"
                 id="description"
             >{{ old('description', $library?->description) }}</textarea>
@@ -32,7 +32,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
+                    class="text-sm text-slate-600 dark:text-slate-400"
                 >{{ __('Enregistré.') }}</p>
             @endif
         </div>
