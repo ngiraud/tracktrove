@@ -31,13 +31,15 @@ class DataSeeder extends Seeder
         foreach (range(1, 10) as $range) {
             Album::factory()->count(random_int(10, 20))
                  ->hasAttached($genres->random(random_int(1, 4)))
-                 ->create(['library_id' => $nico->refresh()->library->id]);
+                 ->hasAttached($nico->refresh()->library)
+                 ->create();
         }
 
         foreach (range(1, 10) as $range) {
             Album::factory()->count(random_int(10, 20))
                  ->hasAttached($genres->random(random_int(1, 4)))
-                 ->create(['library_id' => $john->refresh()->library->id]);
+                 ->hasAttached($john->refresh()->library)
+                 ->create();
         }
     }
 }

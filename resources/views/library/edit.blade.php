@@ -12,14 +12,14 @@
     <div class="space-y-6">
         <div class="p-4 sm:p-8 bg-white dark:bg-slate-800 shadow sm:rounded-lg">
             <div class="max-w-xl">
-                @include('myaccount.library.partials.form')
+                @include('library.partials.form')
             </div>
         </div>
 
         @isset($library)
             <div class="p-4 sm:p-8 bg-white dark:bg-slate-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
-                    @include('myaccount.library.partials.delete-library-form')
+                    @include('library.partials.delete-library-form')
                 </div>
             </div>
         @endisset

@@ -27,7 +27,7 @@ class AlbumController extends Controller
     {
         $request->validate([
             'q' => ['nullable', 'string', 'max:255', 'min:2'],
-            'sort' => ['nullable', Rule::in(['name', 'released_at', 'type']), 'required_unless:direction,null'],
+            'sort' => ['nullable', Rule::in(['name', 'released_at', 'type', 'created_at']), 'required_unless:direction,null'],
             'direction' => ['nullable', Rule::in(['asc', 'desc']), 'required_unless:sort,null'],
             'filters' => ['nullable', 'array:artist,type'],
             'filters.artist' => ['nullable', Rule::exists(Album::class, 'artist_id')],
@@ -36,11 +36,11 @@ class AlbumController extends Controller
 
         return view('myaccount.albums.index', [
             'artists' => Artist::orderBy('name')->get(['id', 'name']),
-            'albums' => $request->user()?->library?->albums()
-                                                  ->with(['artist', 'genres'])
-                                                  ->filtered($request)
-                                                  ->paginate()
-                                                  ->withQueryString(),
+            'albums' => $request->user()->library->albums()
+                                                 ->with(['artist', 'genres'])
+                                                 ->filtered($request)
+                                                 ->paginate()
+                                                 ->withQueryString(),
         ]);
     }
 
@@ -107,9 +107,9 @@ class AlbumController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Album $album): RedirectResponse
+    public function destroy(Request $request, Album $album): RedirectResponse
     {
-        $album->delete();
+        $request->user()->library->albums()->detach($album);
 
         return redirect()->route('myaccount.albums.index');
     }

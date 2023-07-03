@@ -45,7 +45,7 @@ class AlbumPolicy
      */
     public function update(User $user, Album $album): bool
     {
-        return $user->library->is($album->library);
+        return $user->library->albums()->where('id', $album->id)->exists();
     }
 
     /**
@@ -53,6 +53,6 @@ class AlbumPolicy
      */
     public function delete(User $user, Album $album): bool
     {
-        return $user->library->is($album->library);
+        return $user->library->albums()->where('id', $album->id)->exists();
     }
 }

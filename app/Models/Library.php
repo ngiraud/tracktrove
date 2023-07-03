@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Library extends Model
 {
@@ -17,7 +16,7 @@ class Library extends Model
     protected static function booted(): void
     {
         static::deleting(function (Library $library) {
-            $library->albums()->delete();
+            $library->albums()->detach();
         });
     }
 
@@ -26,9 +25,9 @@ class Library extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function albums(): HasMany
+    public function albums(): BelongsToMany
     {
-        return $this->hasMany(Album::class);
+        return $this->belongsToMany(Album::class, 'library_has_albums');
     }
 
     public function followers(): BelongsToMany

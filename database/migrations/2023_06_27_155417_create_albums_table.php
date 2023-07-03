@@ -12,7 +12,6 @@ return new class extends Migration {
     {
         Schema::create('albums', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Library::class);
             $table->foreignIdFor(\App\Models\Artist::class);
             $table->string('name');
             $table->timestamp('released_at');
@@ -21,6 +20,11 @@ return new class extends Migration {
             $table->json('external_urls')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('library_has_albums', function (Blueprint $table) {
+            $table->foreignIdFor(\App\Models\Library::class);
+            $table->foreignIdFor(\App\Models\Album::class);
+        });
     }
 
     /**
@@ -28,6 +32,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        Schema::dropIfExists('library_has_albums');
+
         Schema::dropIfExists('albums');
     }
 };

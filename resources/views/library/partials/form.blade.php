@@ -5,7 +5,7 @@
         </h2>
     </header>
 
-    <form method="post" action="{{ route('myaccount.library.'.(is_null($library) ? 'store' : 'update')) }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('library.'.(is_null($library) ? 'store' : 'update')) }}" class="mt-6 space-y-6">
         <div>
             <x-input-label for="name" :value="__('Nom')"/>
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $library?->name)" required autofocus/>

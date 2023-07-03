@@ -102,7 +102,7 @@
                                         name="sort"
                                         class="mt-1 block w-full border-slate-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 focus:border-sky-500 dark:focus:border-sky-600 focus:ring-sky-500 dark:focus:ring-sky-600 rounded-md shadow-sm"
                                 >
-                                    @foreach(['name' => __('Nom'), 'released_at' => __('Date de sortie'), 'type' => __('Type')] as $key => $value)
+                                    @foreach(['name' => __('Nom'), 'released_at' => __('Date de sortie'), 'type' => __('Type'), 'created_at' => __("Date d'ajout")] as $key => $value)
                                         <option @selected(request()->get('sort', 'name') === $key) value="{{ $key }}">{{ $value }}</option>
                                     @endforeach
                                 </select>

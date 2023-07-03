@@ -15,8 +15,6 @@ class AlbumRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        dd($this->all());
-
         return true;
     }
 

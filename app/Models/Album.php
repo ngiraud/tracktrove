@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -29,9 +30,9 @@ class Album extends Model
         return $this->belongsTo(Artist::class);
     }
 
-    public function library(): BelongsTo
+    public function libraries(): BelongsToMany
     {
-        return $this->belongsTo(Library::class);
+        return $this->belongsToMany(Library::class, 'library_has_albums');
     }
 
     public function genres(): MorphToMany
