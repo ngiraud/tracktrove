@@ -33,7 +33,7 @@
                     </li>
                 @else
                     <li class="flex items-center justify-center">
-                        <a href="{{ route('library.create') }}"
+                        <a href="{{ route('myaccount.library.create') }}"
                            class="inline-flex items-center px-4 py-2 bg-sky-800 dark:bg-sky-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-slate-800 uppercase tracking-widest hover:bg-sky-700 dark:hover:bg-white focus:bg-sky-700 dark:focus:bg-white active:bg-sky-900 dark:active:bg-sky-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 dark:focus:ring-offset-sky-800 transition ease-in-out duration-150"
                         >
                             {{ __('Créer ma bibliothèque') }}
@@ -47,8 +47,8 @@
                             <button
                                 @class([
                                     'border-r-4 flex w-full items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 hover:bg-slate-50',
-                                    'border-transparent text-slate-900' => !request()->routeIs('profile.edit') && !request()->routeIs('library.edit'),
-                                    'border-sky-600 text-sky-600' => request()->routeIs('profile.edit') || request()->routeIs('library.edit')
+                                    'border-transparent text-slate-900' => !request()->routeIs('profile.edit') && !request()->routeIs('myaccount.library.edit'),
+                                    'border-sky-600 text-sky-600' => request()->routeIs('profile.edit') || request()->routeIs('myaccount.library.edit')
                                 ])
                             >
                                 <span class="flex items-center justify-center h-8 w-8 rounded-full bg-slate-50 uppercase text-slate-500 border border-slate-400">
@@ -67,7 +67,7 @@
                                 </x-dropdown-link>
 
                                 @isset(auth()->user()->library)
-                                    <x-dropdown-link :href="route('library.edit')" :active="request()->routeIs('library.edit')">
+                                    <x-dropdown-link :href="route('myaccount.library.edit')" :active="request()->routeIs('library.edit')">
                                         {{ auth()->user()->library->name }}
                                     </x-dropdown-link>
                                 @endisset

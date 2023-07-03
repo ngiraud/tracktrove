@@ -11,7 +11,7 @@
     >{{ __('Supprimer la bibliothèque') }}</x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->libraryDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('library.destroy') }}" class="p-6">
+        <form method="post" action="{{ route('myaccount.library.destroy') }}" class="p-6">
             @csrf
             @method('delete')
 
