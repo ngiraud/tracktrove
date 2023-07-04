@@ -20,7 +20,7 @@ class LibraryPolicy
      */
     public function view(User $user, Library $library): bool
     {
-        return $library->isNot($user->library);
+        return $library->isNot($user->library) && $library->is_public;
     }
 
     /**

@@ -73,10 +73,10 @@
             <x-input-label for="type" :value="__('Genres*')"/>
 
             <div class="grid grid-cols-6 gap-4 max-h-40 overflow-y-auto">
-                @foreach($album?->genres as $genre)
+                @foreach($album?->genres ?? [] as $genre)
                     <div class="relative flex items-start">
                         <div class="flex h-6 items-center">
-                            <input id="genres-{{ $genre->id }}" aria-describedby="comments-description"
+                            <input id="genres-{{ $genre->id }}" aria-describedby="genres-name"
                                    name="genres[]"
                                    type="checkbox"
                                    value="{{ $genre->id }}"

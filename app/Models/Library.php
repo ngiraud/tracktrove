@@ -16,10 +16,20 @@ class Library extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'is_public' => 'boolean',
+    ];
+
     protected static function booted(): void
     {
         static::deleting(function (Library $library) {
             $library->albums()->detach();
+        });
+
+        static::saving(function (Library $library) {
+            if (!$library->is_public) {
+                $library->followers()->detach();
+            }
         });
     }
 
@@ -36,6 +46,11 @@ class Library extends Model
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'follow_library_user', 'library_id');
+    }
+
+    public function scopePublic(Builder $query): void
+    {
+        $query->where('is_public', true);
     }
 
     public function scopeFiltered(Builder $query, Request $request): void

@@ -31,7 +31,7 @@ class LibraryController extends Controller
     {
         $this->authorize('create', Library::class);
 
-        $request->user()->library()->create($request->safe(['name', 'description']));
+        $request->user()->library()->create($request->validated());
 
         return redirect()->route('myaccount.library.edit')->with('status', 'library-updated');
     }
@@ -56,7 +56,7 @@ class LibraryController extends Controller
     {
         $this->authorize('update', $request->user()->library);
 
-        $request->user()->library()->update($request->safe(['name', 'description']));
+        $request->user()->library->update($request->validated());
 
         return redirect()->route('myaccount.library.edit')->with('status', 'library-updated');
     }

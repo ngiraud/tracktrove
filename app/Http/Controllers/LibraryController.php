@@ -24,6 +24,7 @@ class LibraryController extends Controller
 
         return view('libraries.index', [
             'libraries' => Library::with(['user:id,name'])
+                                  ->public()
                                   ->whereKeyNot($request->user()->library->getKey())
                                   ->withCount(['albums', 'followers'])
                                   ->filtered($request)

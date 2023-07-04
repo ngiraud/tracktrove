@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(\App\Models\User::class);
             $table->string('name');
+            $table->boolean('is_public')->default(true);
             $table->longText('description')->nullable();
             $table->timestamps();
         });
