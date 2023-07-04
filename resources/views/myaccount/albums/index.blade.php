@@ -24,7 +24,10 @@
                     <table class="min-w-full divide-y divide-slate-300">
                         <thead>
                         <tr>
-                            <th scope="col" class="sticky top-0 z-10 py-3 pr-2 pl-4 text-left text-xs font-medium uppercase tracking-wide text-slate-500 sm:pl-1">
+                            <th scope="col" class="sticky bg-white top-0 z-10 py-3 pr-2 pl-4 text-left text-xs font-medium uppercase tracking-wide text-slate-500 sm:pl-1">
+                                <span class="sr-only">{{ __('Image') }}</span>
+                            </th>
+                            <th scope="col" class="sticky top-0 z-10 px-2 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
                                 {{ __('Nom') }}
                             </th>
                             <th scope="col" class="sticky top-0 z-10 px-2 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
@@ -47,7 +50,12 @@
                         <tbody class="bg-white">
                         @forelse($albums as $album)
                             <tr class="even:bg-slate-50 hover:bg-slate-100 transition-colors">
-                                <td class="whitespace-nowrap pr-2 pl-4 text-sm font-medium text-slate-900 py-3.5 sm:pl-1">
+                                <td class="whitespace-nowrap pr-2 pl-4 text-sm font-medium text-slate-900 py-2 sm:pl-1">
+                                    @isset($album->cover)
+                                        <img src="{{ $album->cover }}" class="h-11 w-11"/>
+                                    @endisset
+                                </td>
+                                <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-slate-900">
                                     {{ $album->name }}
                                 </td>
                                 <td class="whitespace-nowrap px-2 py-2 text-sm text-slate-500">
@@ -62,7 +70,7 @@
                                 <td class="whitespace-nowrap px-2 py-2 text-sm text-slate-500">
                                     {!! $album->genres->pluck('name')->implode("<br/>") !!}
                                 </td>
-                                <td class="relative whitespace-nowrap pr-4 pl-2 text-right text-sm font-medium py-3.5 sm:pr-1">
+                                <td class="relative whitespace-nowrap pr-4 pl-2 text-right text-sm font-medium py-2 sm:pr-1">
                                     <a href="{{ route('myaccount.albums.edit', $album) }}" class="text-sky-600 hover:text-sky-900">
                                         {{ __('Modifier') }}<span class="sr-only">, {{ $album->name }}</span>
                                     </a>

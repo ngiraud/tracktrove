@@ -170,5 +170,6 @@ return [
         'filters.artist' => 'artiste',
         'sort' => 'tri',
         'direction' => 'direction',
+        'name' => 'nom',
     ],
 ];

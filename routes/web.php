@@ -42,6 +42,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/library', [Controllers\MyAccount\LibraryController::class, 'destroy'])->name('destroy');
         });
     });
+
+    Route::get('/spotify/redirect', [Controllers\SocialiteController::class, 'redirect'])->name('socialite.spotify.redirect');
+    Route::get('/spotify/callback', [Controllers\SocialiteController::class, 'callback'])->name('socialite.spotify.callback');
+
+    Route::prefix('spotify')->name('spotify.')->group(function () {
+        Route::post('/search', [Controllers\MyAccount\SpotifyController::class, 'search'])->name('search');
+        Route::post('/{id}', [Controllers\MyAccount\SpotifyController::class, 'store'])->name('store');
+    });
 });
 
 require __DIR__.'/auth.php';

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Collections\TracksCollection;
 use App\Enums\AlbumType;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+use Spotify\SingleObjects\Track;
 
 class Album extends Model
 {
@@ -23,7 +26,46 @@ class Album extends Model
         'type' => AlbumType::class,
         'external_urls' => AsCollection::class,
         'released_at' => 'datetime',
+        'tracks' => AsCollection::class.':'.TracksCollection::class,
     ];
+
+    public static function createFromSpotify(\Spotify\SingleObjects\Album $spotifyAlbum): self
+    {
+        if (is_null($artist = Artist::where('spotify_id', $spotifyAlbum->artists[0]->id)->first())) {
+            $artist = Artist::create([
+                'spotify_id' => $spotifyAlbum->artists[0]->id,
+                'name' => $spotifyAlbum->artists[0]->name,
+                'external_urls' => $spotifyAlbum->artists[0]->externalUrls,
+            ]);
+
+            if (!empty($spotifyAlbum->artists[0]->genres)) {
+                $artist->genres()->attach(Genre::whereIn('slug', $spotifyAlbum->artists[0]->genres)->pluck('id'));
+            }
+        }
+
+        $album = self::create([
+            'spotify_id' => $spotifyAlbum->id,
+            'artist_id' => $artist->id,
+            'name' => $spotifyAlbum->name,
+            'released_at' => match ($spotifyAlbum->releaseDatePrecision) {
+                'year' => Carbon::createFromFormat('Y', $spotifyAlbum->releaseDate),
+                'month' => Carbon::createFromFormat('Y-m', $spotifyAlbum->releaseDate),
+                default => Carbon::parse($spotifyAlbum->releaseDate),
+            },
+            'type' => AlbumType::fromSpotify($spotifyAlbum->type),
+            'tracks' => collect($spotifyAlbum->tracks->results())->map(function (Track $track) {
+                return Arr::only($track->toArray(), ['id', 'name', 'disc_number', 'track_number', 'duration_ms']);
+            }),
+            'external_urls' => $spotifyAlbum->externalUrls,
+            'cover' => Arr::get($spotifyAlbum->images, 0)?->url,
+        ]);
+
+        if (!empty($spotifyAlbum->genres)) {
+            $album->genres()->attach(Genre::whereIn('slug', $spotifyAlbum->genres)->pluck('id'));
+        }
+
+        return $album;
+    }
 
     public function artist(): BelongsTo
     {

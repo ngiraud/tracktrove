@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('artists', function (Blueprint $table) {
             $table->id();
+            $table->text('spotify_id')->nullable();
             $table->string('name');
             $table->json('external_urls')->nullable();
             $table->timestamps();

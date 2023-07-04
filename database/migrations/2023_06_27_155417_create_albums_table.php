@@ -13,11 +13,13 @@ return new class extends Migration {
         Schema::create('albums', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\Artist::class);
+            $table->text('spotify_id')->nullable();
             $table->string('name');
             $table->timestamp('released_at');
             $table->unsignedTinyInteger('type');
             $table->json('tracks')->nullable();
             $table->json('external_urls')->nullable();
+            $table->text('cover')->nullable();
             $table->timestamps();
         });
 

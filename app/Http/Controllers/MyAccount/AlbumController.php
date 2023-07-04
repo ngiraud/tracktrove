@@ -49,7 +49,7 @@ class AlbumController extends Controller
      */
     public function create(): View
     {
-        return view('myaccount.albums.form', [
+        return view('myaccount.albums.create', [
             'artists' => Artist::orderBy('name')->get(['name', 'id']),
             'genres' => Genre::orderBy('name')->get(),
             'album' => null,
@@ -79,7 +79,7 @@ class AlbumController extends Controller
      */
     public function edit(Album $album): View
     {
-        return view('myaccount.albums.form', [
+        return view('myaccount.albums.edit', [
             'artists' => Artist::orderBy('name')->get(['name', 'id']),
             'genres' => Genre::orderBy('name')->get(),
             'album' => $album,
