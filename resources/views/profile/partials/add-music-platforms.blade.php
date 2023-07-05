@@ -10,22 +10,24 @@
     </header>
 
     <div class="flex items-center gap-4">
-        <x-spotify-link/>
+        <div class="flex items-center gap-4 flex-1">
+            <x-spotify-link/>
 
-        @if (session('status') === 'music-platform-updated')
-            <p
-                x-data="{ show: true }"
-                x-show="show"
-                x-transition
-                x-init="setTimeout(() => show = false, 2000)"
-                class="text-sm text-slate-600 dark:text-slate-400"
-            >{{ __('Votre compte Spotify a bien été lié.') }}</p>
-        @endif
+            @if (session('status') === 'music-platform-updated')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-slate-600 dark:text-slate-400"
+                >{{ __('Votre compte Spotify a bien été lié.') }}</p>
+            @endif
+        </div>
+
+        @isset($user->spotify_token)
+            <div class="flex flex-col justify-center text-sm text-slate-600 dark:text-slate-400 text-ellipsis overflow-hidden">
+                {{ __('Votre token : :token', ['token' => str($user->spotify_token)->substr(0, 5).'****'.str($user->spotify_token)->substr(str($user->spotify_token)->length()-5, 5)]) }}
+            </div>
+        @endisset
     </div>
 </section>
-
-@isset($user->spotify_token)
-    <div class="flex flex-col justify-center text-sm text-slate-600 dark:text-slate-400 text-ellipsis overflow-hidden">
-        {{ __('Votre token : :token', ['token' => $user->spotify_token]) }}
-    </div>
-@endisset

@@ -19,9 +19,7 @@
         </div>
 
         <div class="p-4 sm:p-8 bg-white dark:bg-slate-800 shadow sm:rounded-lg">
-            <div class="grid grid-cols-2 gap-4">
-                @include('profile.partials.add-music-platforms')
-            </div>
+            @include('profile.partials.add-music-platforms')
         </div>
 
         <div class="p-4 sm:p-8 bg-white dark:bg-slate-800 shadow sm:rounded-lg">
