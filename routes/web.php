@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('me')->name('myaccount.')->group(function () {
+        Route::get('/albums/{album}/add-to-library', [Controllers\MyAccount\AlbumController::class, 'addToLibrary'])->name('albums.addToLibrary');
         Route::resource('albums', Controllers\MyAccount\AlbumController::class)->except('show');
 
         Route::name('library.')->group(function () {

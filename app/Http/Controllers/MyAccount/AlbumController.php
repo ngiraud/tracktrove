@@ -114,6 +114,15 @@ class AlbumController extends Controller
         return redirect()->route('myaccount.albums.index');
     }
 
+    public function addToLibrary(Request $request, Album $album): RedirectResponse
+    {
+        $this->authorize('create', Album::class);
+
+        $request->user()->library->albums()->attach($album->id);
+
+        return redirect()->to(route('myaccount.albums.edit', $album));
+    }
+
     protected function createArtistAndRetrieveId(AlbumRequest $request): int
     {
         if (!empty($name = $request->input('artist_name'))) {

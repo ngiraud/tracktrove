@@ -51,9 +51,13 @@
                         @forelse($albums as $album)
                             <tr class="even:bg-slate-50 hover:bg-slate-100 transition-colors">
                                 <td class="whitespace-nowrap pr-2 pl-4 text-sm font-medium text-slate-900 py-2 sm:pl-1">
-                                    @isset($album->cover)
-                                        <img src="{{ $album->cover }}" class="h-11 w-11"/>
-                                    @endisset
+                                    <div class="h-11 w-11 rounded-md overflow-hidden bg-slate-100 flex items-center justify-center text-lg text-slate-500">
+                                        @isset($album->cover)
+                                            <img src="{{ $album->cover }}" class="h-full w-full object-cover"/>
+                                        @else
+                                            {{ str($album->name)[0] }}
+                                        @endisset
+                                    </div>
                                 </td>
                                 <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-slate-900">
                                     {{ $album->name }}
@@ -74,6 +78,18 @@
                                     <a href="{{ route('myaccount.albums.edit', $album) }}" class="text-sky-600 hover:text-sky-900">
                                         {{ __('Modifier') }}<span class="sr-only">, {{ $album->name }}</span>
                                     </a>
+
+                                    <form method="POST" action="{{ route('myaccount.albums.destroy', $album) }}">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="text-sky-600 hover:text-sky-900"
+                                                title="{{ __('Enlever de ma bibliothèque') }}"
+                                        >
+                                            {{ __('Supprimer') }}<span class="sr-only">, {{ $album->name }}</span>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
